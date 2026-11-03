@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}No se pudo completar | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<section class="error-card">
+    <span class="eyebrow">ATENCIÓN</span>
+    <h1>Ocurrió un problema</h1>
+    <p>{{ message or 'No se pudo completar la solicitud. Comprueba que MySQL esté iniciado y que las credenciales de .env sean correctas.' }}</p>
+    <a class="button button-primary" href="{{ url_for('index') }}">Volver al inicio</a>
+</section>
+{% endblock %}

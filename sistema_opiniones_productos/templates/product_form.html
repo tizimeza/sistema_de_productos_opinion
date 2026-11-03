@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Editar producto | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">CATÁLOGO</span><h1>Editar producto</h1><p>Actualiza los datos de {{ product.nombre }}.</p></div></div>
+<section class="panel-card form-panel narrow-panel">
+    <form method="post" class="stack-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>Nombre<input name="nombre" maxlength="150" value="{{ product.nombre }}" required></label>
+        <label>Categoría<input name="categoria" maxlength="100" value="{{ product.categoria }}"></label>
+        <label>Descripción<textarea name="descripcion" rows="4">{{ product.descripcion or '' }}</textarea></label>
+        <div class="form-actions"><button class="button button-primary" type="submit">Guardar cambios</button><a class="button button-secondary" href="{{ url_for('products') }}">Cancelar</a></div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Panel estadístico | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">INDICADORES</span><h1>Panel estadístico</h1><p>Resumen actualizado directamente desde la base de datos.</p></div></div>
+<section class="metric-grid">
+    <article class="metric-card"><span class="metric-label">Productos</span><strong>{{ stats.productos }}</strong><span class="metric-icon">P</span></article>
+    <article class="metric-card"><span class="metric-label">Clientes</span><strong>{{ stats.clientes }}</strong><span class="metric-icon">C</span></article>
+    <article class="metric-card"><span class="metric-label">Comentarios</span><strong>{{ stats.comentarios }}</strong><span class="metric-icon">O</span></article>
+    <article class="metric-card"><span class="metric-label">Likes</span><strong>{{ stats.likes }}</strong><span class="metric-icon metric-positive">+</span></article>
+    <article class="metric-card"><span class="metric-label">Dislikes</span><strong>{{ stats.dislikes }}</strong><span class="metric-icon metric-negative">−</span></article>
+</section>
+<section class="dashboard-grid">
+    <article class="panel-card">
+        <div class="panel-heading"><div><span class="eyebrow">RESULTADOS DE IA</span><h2>Sentimientos detectados</h2></div><span class="muted">{{ total_analyzed }} analizados</span></div>
+        {% for key, label, value, color in [('POSITIVO', 'Positivos', stats.positivos, 'positive'), ('NEGATIVO', 'Negativos', stats.negativos, 'negative'), ('NEUTRAL', 'Neutrales', stats.neutrales, 'neutral')] %}
+            {% set percent = (value * 100 / total_analyzed)|round|int if total_analyzed else 0 %}
+            <div class="chart-row">
+                <div class="chart-label"><span>{{ label }}</span><strong>{{ value }} <small>({{ percent }}%)</small></strong></div>
+                <div class="bar-track" role="img" aria-label="{{ label }}: {{ value }} de {{ total_analyzed }}"><span class="bar-fill {{ color }}" style="width: {{ percent }}%"></span></div>
+            </div>
+        {% endfor %}
+        {% if not total_analyzed %}<p class="muted">Cuando analices comentarios, su distribución aparecerá aquí.</p>{% endif %}
+    </article>
+    <article class="panel-card highlight-card">
+        <span class="eyebrow">PRÓXIMO PASO</span>
+        <h2>Convierte las opiniones en decisiones</h2>
+        <p>Analiza los comentarios pendientes para conocer la percepción general de tus productos.</p>
+        <a class="button button-primary" href="{{ url_for('analysis') }}">Ir a análisis</a>
+    </article>
+</section>
+{% endblock %}

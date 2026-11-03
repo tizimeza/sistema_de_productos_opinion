@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Resultado del análisis | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">RESULTADO DEL MODELO</span><h1>Análisis del comentario #{{ comment.id_comentario }}</h1><p>{{ comment.producto }} · {{ comment.cliente }}</p></div></div>
+<section class="panel-card detail-card">
+    <span class="eyebrow">COMENTARIO ORIGINAL</span><blockquote>{{ comment.comentario }}</blockquote>
+    {% if comment.sentimiento %}
+    <div class="result-grid">
+        <div class="result-item"><span class="muted">Sentimiento</span><span class="sentiment-pill sentiment-{{ comment.sentimiento|lower }}">{{ comment.sentimiento|title }}</span></div>
+        <div class="result-item"><span class="muted">Confianza del modelo</span><strong>{{ '%.2f'|format(comment.puntuacion * 100) }}%</strong></div>
+        <div class="result-item"><span class="muted">Palabras relevantes</span><strong>{{ comment.palabras_clave or 'No se detectaron palabras clave' }}</strong></div>
+        <div class="result-item"><span class="muted">Fecha de análisis</span><strong>{{ comment.fecha_analisis.strftime('%d/%m/%Y %H:%M') if comment.fecha_analisis else '—' }}</strong></div>
+    </div>
+    <p class="notice-text">El resultado es una estimación del modelo y puede tener limitaciones ante sarcasmo, ambigüedad o negaciones.</p>
+    {% else %}
+    <p class="muted">Este comentario aún no tiene un resultado almacenado.</p>
+    <form method="post" action="{{ url_for('analyze_one', comment_id=comment.id_comentario) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">Analizar comentario</button></form>
+    {% endif %}
+</section>
+<a class="text-link back-link" href="{{ url_for('analysis') }}">← Volver a análisis</a>
+{% endblock %}

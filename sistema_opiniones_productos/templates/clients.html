@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Clientes | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">DIRECTORIO</span><h1>Clientes</h1><p>Los clientes se registran al guardar su primera opinión.</p></div></div>
+<section class="panel-card">
+    {% if clients %}
+    <div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Correo electrónico</th><th>Comentarios</th><th>Fecha de registro</th></tr></thead><tbody>
+        {% for client in clients %}<tr><td><strong>{{ client.nombre }}</strong></td><td>{{ client.correo }}</td><td>{{ client.total_comentarios }}</td><td>{{ client.fecha_registro.strftime('%d/%m/%Y') if client.fecha_registro else '—' }}</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% else %}<div class="empty-state"><p>Aún no hay clientes registrados.</p></div>{% endif %}
+</section>
+{% endblock %}

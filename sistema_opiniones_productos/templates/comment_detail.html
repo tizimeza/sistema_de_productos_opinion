@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Comentario #{{ comment.id_comentario }} | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">DETALLE</span><h1>Comentario #{{ comment.id_comentario }}</h1><p>{{ comment.producto }} · {{ comment.fecha_comentario.strftime('%d/%m/%Y %H:%M') if comment.fecha_comentario else '' }}</p></div></div>
+<section class="panel-card detail-card">
+    <span class="eyebrow">OPINIÓN ORIGINAL</span>
+    <blockquote>{{ comment.comentario }}</blockquote>
+    <div class="detail-grid"><div><span class="muted">Cliente</span><strong>{{ comment.cliente }}</strong></div><div><span class="muted">Correo</span><strong>{{ comment.correo }}</strong></div><div><span class="muted">Voto</span><strong>{{ 'Like' if comment.like_producto else 'Dislike' }}</strong></div></div>
+    {% if comment.sentimiento %}<div class="analysis-summary"><span class="sentiment-pill sentiment-{{ comment.sentimiento|lower }}">{{ comment.sentimiento|title }}</span><span>Confianza del modelo: {{ '%.2f'|format(comment.puntuacion * 100) }}%</span><a class="text-link" href="{{ url_for('analysis_detail', comment_id=comment.id_comentario) }}">Ver análisis →</a></div>{% else %}<p class="muted">Este comentario todavía no tiene análisis automático.</p><form method="post" action="{{ url_for('analyze_one', comment_id=comment.id_comentario) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">Analizar comentario</button></form>{% endif %}
+</section>
+{% endblock %}

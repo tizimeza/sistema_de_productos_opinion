@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Inicio | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">PLATAFORMA DE EXPERIENCIA DEL CLIENTE</span>
+        <h1>Escucha a tus clientes.<br><span>Entiende cada opinión.</span></h1>
+        <p>Registra comentarios de productos y descubre su sentimiento con análisis de lenguaje natural en español.</p>
+        <div class="hero-actions">
+            <a class="button button-primary" href="{{ url_for('new_comment') }}">Registrar opinión</a>
+            <a class="button button-secondary" href="{{ url_for('dashboard') }}">Ver estadísticas</a>
+        </div>
+    </div>
+    <div class="hero-panel">
+        <span class="panel-label">Resumen general</span>
+        <div class="hero-total">{{ stats.comentarios }}</div>
+        <span class="muted">comentarios registrados</span>
+        <div class="mini-distribution">
+            <span class="positive" style="--value: {{ stats.positivos }}"></span>
+            <span class="negative" style="--value: {{ stats.negativos }}"></span>
+            <span class="neutral" style="--value: {{ stats.neutrales }}"></span>
+        </div>
+        <div class="legend-inline">
+            <span><i class="dot positive"></i> Positivos {{ stats.positivos }}</span>
+            <span><i class="dot negative"></i> Negativos {{ stats.negativos }}</span>
+            <span><i class="dot neutral"></i> Neutrales {{ stats.neutrales }}</span>
+        </div>
+    </div>
+</section>
+<section class="section-block">
+    <div class="section-heading">
+        <div><span class="eyebrow">ACCESO RÁPIDO</span><h2>Administra tu información</h2></div>
+    </div>
+    <div class="quick-grid">
+        <a class="quick-card" href="{{ url_for('products') }}"><span class="quick-icon">01</span><h3>Productos</h3><p>Registra y actualiza tu catálogo.</p></a>
+        <a class="quick-card" href="{{ url_for('comments') }}"><span class="quick-icon">02</span><h3>Comentarios</h3><p>Consulta y filtra las opiniones.</p></a>
+        <a class="quick-card" href="{{ url_for('analysis') }}"><span class="quick-icon">03</span><h3>Análisis de sentimientos</h3><p>Clasifica comentarios con IA.</p></a>
+        <a class="quick-card" href="{{ url_for('dashboard') }}"><span class="quick-icon">04</span><h3>Panel estadístico</h3><p>Explora los indicadores principales.</p></a>
+    </div>
+</section>
+<section class="section-block">
+    <div class="section-heading">
+        <div><span class="eyebrow">ACTIVIDAD RECIENTE</span><h2>Últimos comentarios</h2></div>
+        <a class="text-link" href="{{ url_for('comments') }}">Ver todos →</a>
+    </div>
+    {% if recent_comments %}
+        <div class="recent-list">
+            {% for item in recent_comments %}
+                <a class="recent-item" href="{{ url_for('comment_detail', comment_id=item.id_comentario) }}">
+                    <span class="recent-avatar">{{ item.cliente[:1]|upper }}</span>
+                    <span class="recent-copy"><strong>{{ item.cliente }}</strong><small>{{ item.producto }} · {{ item.comentario }}</small></span>
+                    {% if item.sentimiento %}<span class="sentiment-pill sentiment-{{ item.sentimiento|lower }}">{{ item.sentimiento|title }}</span>{% else %}<span class="status-pill">Pendiente</span>{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state"><p>Aún no hay comentarios. Registra la primera opinión para comenzar.</p><a class="button button-primary" href="{{ url_for('new_comment') }}">Crear comentario</a></div>
+    {% endif %}
+</section>
+{% endblock %}

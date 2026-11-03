@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Comentarios | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading page-heading-actions"><div><span class="eyebrow">OPINIONES DE CLIENTES</span><h1>Comentarios</h1><p>Busca, filtra y consulta opiniones registradas.</p></div><a class="button button-primary" href="{{ url_for('new_comment') }}">+ Nuevo comentario</a></div>
+<form class="filter-bar" method="get">
+    <label class="search-control">Buscar<input type="search" name="q" value="{{ search }}" placeholder="Producto, cliente o texto"></label>
+    <label>Producto<select name="producto"><option value="">Todos</option>{% for product in products %}<option value="{{ product.id_producto }}" {% if selected_product == product.id_producto|string %}selected{% endif %}>{{ product.nombre }}</option>{% endfor %}</select></label>
+    <label>Sentimiento<select name="sentimiento"><option value="">Todos</option>{% for value in ['POSITIVO','NEGATIVO','NEUTRAL'] %}<option value="{{ value }}" {% if selected_sentiment == value %}selected{% endif %}>{{ value|title }}</option>{% endfor %}</select></label>
+    <button class="button button-secondary" type="submit">Filtrar</button>
+</form>
+<section class="panel-card">
+    {% if comments %}
+    <div class="table-wrap"><table><thead><tr><th>ID / producto</th><th>Cliente</th><th>Comentario</th><th>Opinión</th><th>Sentimiento</th><th>Fecha</th><th></th></tr></thead><tbody>
+        {% for item in comments %}
+        <tr><td><strong>#{{ item.id_comentario }} · {{ item.producto }}</strong></td><td>{{ item.cliente }}<small class="table-subtext">{{ item.correo }}</small></td><td class="comment-cell">{{ item.comentario }}</td><td>{% if item.like_producto %}<span class="vote-label vote-like">Like</span>{% else %}<span class="vote-label vote-dislike">Dislike</span>{% endif %}</td><td>{% if item.sentimiento %}<span class="sentiment-pill sentiment-{{ item.sentimiento|lower }}">{{ item.sentimiento|title }}</span>{% else %}<span class="status-pill">Pendiente</span>{% endif %}</td><td>{{ item.fecha_comentario.strftime('%d/%m/%Y') if item.fecha_comentario else '—' }}</td><td><a class="text-link" href="{{ url_for('comment_detail', comment_id=item.id_comentario) }}">Ver</a></td></tr>
+        {% endfor %}
+    </tbody></table></div>
+    {% else %}<div class="empty-state"><p>No hay comentarios que coincidan con los filtros.</p></div>{% endif %}
+</section>
+{% endblock %}

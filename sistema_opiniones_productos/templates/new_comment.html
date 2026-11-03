@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Nueva opinión | Opiniones Inteligentes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">VOZ DEL CLIENTE</span><h1>Registrar una opinión</h1><p>Cuéntanos sobre la experiencia con un producto.</p></div></div>
+<section class="panel-card form-panel narrow-panel">
+    {% if products %}
+    <form method="post" class="stack-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>Producto<select name="id_producto" required><option value="">Selecciona un producto</option>{% for product in products %}<option value="{{ product.id_producto }}" {% if request.form.get('id_producto') == product.id_producto|string %}selected{% endif %}>{{ product.nombre }}</option>{% endfor %}</select></label>
+        <div class="form-row">
+            <label>Nombre<input name="nombre" maxlength="150" value="{{ request.form.get('nombre', '') }}" autocomplete="name" required></label>
+            <label>Correo electrónico<input type="email" name="correo" maxlength="150" value="{{ request.form.get('correo', '') }}" autocomplete="email" required></label>
+        </div>
+        <label>Tu comentario<textarea name="comentario" rows="5" maxlength="5000" required>{{ request.form.get('comentario', '') }}</textarea><small>Comparte detalles útiles sobre tu experiencia.</small></label>
+        <fieldset class="vote-field"><legend>¿Te gusta este producto?</legend><label class="choice"><input type="radio" name="opinion" value="like" required><span>👍 Like</span></label><label class="choice"><input type="radio" name="opinion" value="dislike" required><span>👎 Dislike</span></label></fieldset>
+        <button class="button button-primary" type="submit">Guardar comentario</button>
+    </form>
+    {% else %}
+    <div class="empty-state"><p>Primero necesitas registrar al menos un producto.</p><a class="button button-primary" href="{{ url_for('products') }}">Ir a productos</a></div>
+    {% endif %}
+</section>
+{% endblock %}
