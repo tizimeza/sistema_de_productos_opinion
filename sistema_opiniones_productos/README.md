@@ -107,6 +107,14 @@ FLASK_DEBUG=0
 
 `.env` está excluido de Git. Usa la cuenta y contraseña reales configuradas en MySQL; el proyecto no presupone que `root` esté sin contraseña. La clave secreta que acompaña el archivo local debe cambiarse por una clave aleatoria propia antes de publicar o exponer el servicio.
 
+## Despliegue en Render
+
+El Blueprint `render.yaml` está en la raíz y configura el servicio web, Gunicorn, Python 3.12.8 y una `SECRET_KEY` generada por Render. Antes de que el chequeo de salud `/` pueda pasar, crea o elige una base MySQL accesible desde Render; MySQL de XAMPP y `localhost` solo funcionan en la computadora local.
+
+Al crear el Blueprint, Render solicitará los valores `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME`. Configúralos con los datos del proveedor de MySQL externo. Inicializa esa base ejecutando `database/crear_base_datos.sql` en el proveedor antes de completar el despliegue. No publiques los valores secretos en GitHub. Este proyecto conecta mediante el protocolo MySQL estándar; asegúrate de que el proveedor permita conexiones desde Render y de cumplir sus requisitos de TLS.
+
+`requirements.txt` incluye Gunicorn para producción. El comando de inicio del Blueprint es `gunicorn app:app`.
+
 ## Uso y análisis
 
 1. Crea o edita productos en **Productos**.
