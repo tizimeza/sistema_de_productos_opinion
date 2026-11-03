@@ -80,3 +80,39 @@ SELECT 'Cliente de prueba', 'cliente.prueba@example.com'
 WHERE NOT EXISTS (
     SELECT 1 FROM clientes WHERE correo = 'cliente.prueba@example.com'
 );
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'Laptop Lenovo ThinkPad E14', 'Laptop para trabajo y estudio con procesador Intel Core i5 y 16 GB de memoria.', 'Informatica'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'Laptop Lenovo ThinkPad E14'
+);
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'Monitor Dell 24 P2422H', 'Monitor IPS de 24 pulgadas con resolucion Full HD y soporte ajustable.', 'Monitores'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'Monitor Dell 24 P2422H'
+);
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'Teclado mecanico Logitech K835', 'Teclado mecanico compacto para oficina y uso diario.', 'Perifericos'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'Teclado mecanico Logitech K835'
+);
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'Mouse Logitech M170', 'Mouse inalambrico optico con receptor USB.', 'Perifericos'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'Mouse Logitech M170'
+);
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'SSD Kingston NV2 1TB', 'Unidad SSD NVMe de 1 TB para almacenamiento y mejora del rendimiento.', 'Almacenamiento'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'SSD Kingston NV2 1TB'
+);
+
+INSERT INTO productos (nombre, descripcion, categoria)
+SELECT 'Webcam Logitech C920', 'Camara web Full HD para videollamadas y clases virtuales.', 'Video'
+WHERE NOT EXISTS (
+    SELECT 1 FROM productos WHERE nombre = 'Webcam Logitech C920'
+);
