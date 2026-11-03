@@ -5,3 +5,4 @@ mysql-connector-python>=9.0,<10.0
 python-dotenv>=1.0,<2.0
 pysentimiento==0.7.3
 torch>=2.0.0,!=2.0.1
+gunicorn>=22.0,<24.0

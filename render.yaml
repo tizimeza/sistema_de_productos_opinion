@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: sistema-opiniones-productos
+    runtime: python
+    plan: free
+    rootDir: sistema_opiniones_productos
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: opiniones_productos
