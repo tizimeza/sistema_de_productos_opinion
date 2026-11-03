@@ -109,7 +109,7 @@ FLASK_DEBUG=0
 
 ## Despliegue en Render
 
-El Blueprint `render.yaml` está en la raíz y configura el servicio web, Gunicorn, Python 3.12.8 y una `SECRET_KEY` generada por Render. Antes de que el chequeo de salud `/` pueda pasar, crea o elige una base MySQL accesible desde Render; MySQL de XAMPP y `localhost` solo funcionan en la computadora local.
+El Blueprint `render.yaml` está en la raíz del repositorio Git y configura `rootDir: sistema_opiniones_productos`, Gunicorn, Python y una `SECRET_KEY` generada por Render. El archivo `requirements.txt` se encuentra dentro de esa carpeta del proyecto. Antes de que el chequeo de salud `/` pueda pasar, crea o elige una base MySQL accesible desde Render; MySQL de XAMPP y `localhost` solo funcionan en la computadora local.
 
 Al crear el Blueprint, Render solicitará los valores `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME`. Configúralos con los datos del proveedor de MySQL externo. Inicializa esa base ejecutando `database/crear_base_datos.sql` en el proveedor antes de completar el despliegue. No publiques los valores secretos en GitHub. Este proyecto conecta mediante el protocolo MySQL estándar; asegúrate de que el proveedor permita conexiones desde Render y de cumplir sus requisitos de TLS.
 
